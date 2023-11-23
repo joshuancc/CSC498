@@ -6,22 +6,22 @@ X_LENGTH = 19
 Y_LENGTH = 22
 Z_LENGTH = 23 
 
-key_one = ""
+
 x = []
 y = []
 z = []
-
+key = ""
 def loading_registers(key):
     global x, y, z
     x = [int(bit) for bit in key[:X_LENGTH]]
     y = [int(bit) for bit in key[X_LENGTH: X_LENGTH + Y_LENGTH]]
     z = [int(bit) for bit in key[X_LENGTH + Y_LENGTH:]]
   
-def set_key(key):
+def set_key(input):
     global key_one
-    if len(key) == 64 and re.match("^([01])+", key):
-        key_one = key
-        loading_registers(key)
+    if len(input) == 64 and re.match("^([01])+", input):
+        key = input
+        loading_registers(input)
         return True
     return False
 
@@ -36,14 +36,13 @@ def to_binary(plain):
 def get_majority(x, y, z):
     if x + y + z > 1:
         return 1
-    else:
-        return 0
+    return 0
 
 def get_keystream(length):
     x_temp, y_temp, z_temp = copy.deepcopy(x), copy.deepcopy(y), copy.deepcopy(z)
     keystream = []
     
-    for _ in range(length):
+    for i in range(length):
         majority = get_majority(x_temp[8], y_temp[10], z_temp[10])
 
         if x_temp[8] == majority:
